@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ldr-lyrics-bot",
+  "main": "src/index.js",
+  "compatibility_date": "2025-01-29",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  "triggers": {
+    "crons": ["0 */2 * * *"]
+  }
+}
