@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "lib": ["ES6", "DOM"],
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "target": "ES6",
+        "types": ["./.wrangler/types/runtime"]
+    }
+}
