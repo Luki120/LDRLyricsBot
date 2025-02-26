@@ -10,7 +10,7 @@
     "type-check": "wrangler types --experimental-include-runtime && tsc"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.6.4",
+    "@cloudflare/vitest-pool-workers": "^0.7.3",
     "@types/crypto-js": "^4.2.2",
     "@types/node": "^20.8.3",
     "vitest": "2.1.8",
