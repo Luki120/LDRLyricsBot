@@ -1,0 +1,13 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      dev-dependencies:
+        patterns:
+          - "devDependencies"
+      dependencies:
+        patterns:
+          - "dependencies"
