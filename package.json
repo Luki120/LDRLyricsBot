@@ -13,7 +13,7 @@
     "@cloudflare/vitest-pool-workers": "^0.6.4",
     "@types/crypto-js": "^4.2.2",
     "@types/node": "^20.8.3",
-    "vitest": "2.1.8",
+    "vitest": "3.0.7",
     "wrangler": "^3.107.3"
   },
   "dependencies": {
