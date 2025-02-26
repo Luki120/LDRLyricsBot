@@ -41,7 +41,11 @@ class LDRLyricsBot {
 		// Blue Banisters (2021)
 		"Text Book", "Blue Banisters", "Arcadia", "Black Bathing Suit", "If You Lie Down With Me", "Beautiful", "Violets for Roses", "Dealer", "Thunder", "Wildflower Wildfire", "Nectar Of The Gods", "Living Legend", "Cherry Blossom", "Sweet Carolina",
 		// Did you know that there's a tunnel under Ocean Blvd (2023)
-		"The Grants", "Did you know that there's a tunnel under Ocean Blvd", "Sweet", "A&W", "Candy Necklace", "Kintsugi", "Fingertips", "Paris, Texas", "Grandfather please stand on the shoulders of my father while he's deep-sea fishing", "Let The Light In", "Margaret", "Fishtail", "Peppers", "Taco Truck x VB"
+		"The Grants", "Did you know that there's a tunnel under Ocean Blvd", "Sweet", "A&W", "Candy Necklace", "Kintsugi", "Fingertips", "Paris, Texas", "Grandfather please stand on the shoulders of my father while he's deep-sea fishing", "Let The Light In", "Margaret", "Fishtail", "Peppers", "Taco Truck x VB",
+		// Singles
+		"Tough", "Take Me Home, Country Roads", "Blue Skies", "Lost At Sea", "Say Yes To Heaven", "Buddy's Rendezvous", "Watercolor Eyes", "Summertime The Gershwin Version", "Season Of The Witch",
+		// Unreleased
+		"Kill Kill", "Meet Me In The Pale Moonlight", "Queen Of Disaster", "Serial Killer", "Trash Magic"
 	]
 	private reqAuth = {
 		url: "https://api.twitter.com/2/tweets",
