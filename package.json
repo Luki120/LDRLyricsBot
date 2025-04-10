@@ -8,7 +8,7 @@
     "start": "wrangler dev",
     "test": "vitest",
     "generate-types": "wrangler types",
-    "type-check": "generate-types && tsc",
+    "type-check": "generate-types && tsc"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
