@@ -5,6 +5,6 @@
         "module": "ESNext",
         "moduleResolution": "node",
         "target": "ES6",
-        "types": ["./.wrangler/types/runtime"]
+        "types": ["worker-configuration.d.ts", "node"]
     }
 }

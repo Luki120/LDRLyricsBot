@@ -7,11 +7,12 @@
     "dev": "wrangler dev",
     "start": "wrangler dev",
     "test": "vitest",
-    "type-check": "wrangler types --experimental-include-runtime && tsc"
+    "generate-types": "wrangler types",
+    "type-check": "generate-types && tsc",
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
-    "@types/node": "^22.13.17",
+    "@types/node": "^22.14.0",
     "wrangler": "^4.9.1"
   },
   "dependencies": {
