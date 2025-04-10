@@ -77,7 +77,7 @@ class LDRLyricsBot {
 			const response = await fetch(uri)
 
 			if (!response.ok) {
-				console.error('Failed to fetch lyrics:', response.status)
+				console.error('Failed to fetch lyrics:', response.status, response.body)
 				return undefined
 			}
 
@@ -89,11 +89,11 @@ class LDRLyricsBot {
 			}
 
 			const lyrics = data.plainLyrics.split('\n\n')
-
 			const randomVerse = lyrics[Math.floor(Math.random() * lyrics.length)]
 			const verseLines = randomVerse.split('\n')
-			const randomVerseLimited = verseLines.slice(0, Math.min(4, verseLines.length)).join('\n')
-			return randomVerseLimited
+
+			if (verseLines.length < 2) return undefined
+			return verseLines.slice(0, 4).join('\n')
 		}
 		catch (error) {
 			console.error('Error:', error)
