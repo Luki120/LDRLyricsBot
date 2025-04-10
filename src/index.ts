@@ -77,7 +77,7 @@ class LDRLyricsBot {
 			const response = await fetch(uri)
 
 			if (!response.ok) {
-				console.error('Failed to fetch lyrics:', response.status, response.body)
+				console.error('Failed to fetch lyrics:', response.status)
 				return undefined
 			}
 
@@ -117,7 +117,7 @@ class LDRLyricsBot {
 			})
 
 			if (!response.ok) {
-				console.log('Error when trying to post tweet:', response.statusText)
+				console.log('Error when trying to post tweet:', response.statusText, response.body)
 				return new Response('Error when trying to post tweet:', { status: response.status })
 			}
 			return new Response(await response.json())
