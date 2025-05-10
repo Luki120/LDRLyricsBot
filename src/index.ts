@@ -69,6 +69,10 @@ class LDRLyricsBot {
 		this.oAuth = new OAuth(this.oAuthConfig)
 	}
 
+	private hashSHA1(baseString: string, key: string) {
+		return HmacSHA1(baseString, key).toString(enc.Base64)
+	}
+
 	private async getRandomLDRLyrics(): Promise<string | undefined> {
 		const randomSong = this.ldrSongs[Math.floor(Math.random() * this.ldrSongs.length)]
 		const uri = `https://lrclib.net/api/get?artist_name=Lana+Del+Rey&track_name=${encodeURIComponent(randomSong)}`
@@ -77,14 +81,14 @@ class LDRLyricsBot {
 			const response = await fetch(uri)
 
 			if (!response.ok) {
-				console.error('Failed to fetch lyrics:', response.status)
+				console.error('❌ Failed to fetch lyrics:', response.status)
 				return undefined
 			}
 
 			const data = await response.json() as LyricsResponse
 
 			if (!data.plainLyrics) {
-				console.error(`Lyrics for song ${randomSong} are null`)
+				console.error(`❌ Lyrics for song ${randomSong} are null`)
 				return undefined
 			}
 
@@ -92,17 +96,16 @@ class LDRLyricsBot {
 			const randomVerse = lyrics[Math.floor(Math.random() * lyrics.length)]
 			const verseLines = randomVerse.split('\n')
 
-			if (verseLines.length < 2) return undefined
+			if (verseLines.length < 2) {
+				console.error(`❌ Verse "${verseLines}" for song ${randomSong} has less than 2 lines, retrying...`)
+				return await this.getRandomLDRLyrics()
+			}
 			return verseLines.slice(0, 4).join('\n')
 		}
 		catch (error) {
-			console.error('Error:', error)
+			console.error('❌ Something went wrong:', error)
 			return undefined
 		}
-	}
-
-	private hashSHA1(baseString: string, key: string) {
-		return HmacSHA1(baseString, key).toString(enc.Base64)
 	}
 
 	public async tweetRandomLDRLyrics(): Promise<Response> {
@@ -117,14 +120,14 @@ class LDRLyricsBot {
 			})
 
 			if (!response.ok) {
-				console.log('Error when trying to post tweet:', response.statusText, response.body)
-				return new Response('Error when trying to post tweet:', { status: response.status })
+				console.log('❌ Error when trying to post tweet:', response.statusText)
+				return new Response('❌ Error when trying to post tweet:', { status: response.status })
 			}
 			return new Response(await response.json())
 		}
 		catch (error) {
-			console.error('Something went wrong:', error)
-			return new Response('Something went wrong:', { status: 500 })
+			console.error('❌ Something went wrong:', error)
+			return new Response('❌ Something went wrong:', { status: 500 })
 		}
 	}
 }
