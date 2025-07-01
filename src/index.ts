@@ -11,7 +11,7 @@ export default {
 			ctx.waitUntil(bot.tweetRandomLDRLyrics())
 		}
 		catch (error) {
-			console.error("Error when scheduling cron job: ", error)
+			console.error('❌ Error when scheduling cron job: ', error)
 		}
 	}
 }
@@ -120,10 +120,12 @@ class LDRLyricsBot {
 			})
 
 			if (!response.ok) {
-				console.log('❌ Error when trying to post tweet:', response.statusText)
-				return new Response('❌ Error when trying to post tweet:', { status: response.status })
+				const errorText = await response.text()
+
+				console.error('❌ Error when trying to post tweet:', errorText)
+				return new Response(`❌ Error when trying to post tweet: ${errorText}`)
 			}
-			return new Response(await response.json())
+			return new Response('✅ Success!')
 		}
 		catch (error) {
 			console.error('❌ Something went wrong:', error)
