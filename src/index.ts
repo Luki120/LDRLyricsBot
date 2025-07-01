@@ -45,7 +45,9 @@ class LDRLyricsBot {
 		// Singles
 		"Tough", "Take Me Home, Country Roads", "Blue Skies", "Lost At Sea", "Say Yes To Heaven", "Buddy's Rendezvous", "Watercolor Eyes", "Summertime The Gershwin Version", "Season Of The Witch",
 		// Unreleased
-		"Flipside", "Is This Happiness", "Jealous Girl", "Kill Kill", "Meet Me In The Pale Moonlight", "Queen Of Disaster", "Serial Killer", "Trash Magic"
+		"Flipside", "Is This Happiness", "Jealous Girl", "Kill Kill", "Meet Me In The Pale Moonlight", "Queen Of Disaster", "Serial Killer", "Trash Magic",
+		// LDR10
+		"Henry, come on", "Bluebird"
 	]
 	private reqAuth = {
 		url: "https://api.twitter.com/2/tweets",
