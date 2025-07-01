@@ -5,6 +5,6 @@
         "module": "ESNext",
         "moduleResolution": "node",
         "target": "ES6",
-        "types": ["worker-configuration.d.ts", "node"]
+        "types": ["node"]
     }
 }
