@@ -3,6 +3,11 @@
 // Runtime types generated with workerd@1.20250507.0 2025-01-29 nodejs_compat
 declare namespace Cloudflare {
 	interface Env {
+		TWITTER_API_KEY: string;
+		TWITTER_API_SECRET: string;
+		TWITTER_ACCESS_TOKEN: string;
+		TWITTER_ACCESS_TOKEN_SECRET: string;
+		DEBUG_MODE?: string;
 	}
 }
 interface Env extends Cloudflare.Env {}
