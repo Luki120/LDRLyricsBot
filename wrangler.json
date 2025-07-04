@@ -1,9 +1,21 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "ldr-lyrics-bot",
-  "main": "src/index.ts",
-  "compatibility_date": "2025-06-17",
-  "compatibility_flags": ["nodejs_compat"],
-  "observability": { "enabled": true },
-  "triggers": { "crons": ["0 */2 * * *"] }
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "ldr-lyrics-bot",
+    "main": "src/index.ts",
+    "compatibility_date": "2025-06-17",
+    "compatibility_flags": [
+        "nodejs_compat"
+    ],
+    "observability": {
+        "enabled": true
+    },
+    "placement": {
+        "mode": "smart"
+    },
+    "triggers": {
+        "crons": [
+            "0 */2 * * *"
+        ]
+    },
+    "workers_dev": false
 }
