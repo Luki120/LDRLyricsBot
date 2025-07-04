@@ -61,7 +61,9 @@ class LDRLyricsBot {
 				secret: env.TWITTER_API_SECRET
 			},
 			signature_method: 'HMAC-SHA1',
-			hash_function: this.hashSHA1
+			hash_function(baseString: string, key: string) {
+				return HmacSHA1(baseString, key).toString(enc.Base64)
+			}
 		}
 		this.tokenConfig = {
 			key: env.TWITTER_ACCESS_TOKEN,
@@ -71,11 +73,7 @@ class LDRLyricsBot {
 		this.oAuth = new OAuth(this.oAuthConfig)
 	}
 
-	private hashSHA1(baseString: string, key: string) {
-		return HmacSHA1(baseString, key).toString(enc.Base64)
-	}
-
-	private async getRandomLDRLyrics(): Promise<string | undefined> {
+	private async getRandomLDRLyrics(): Promise<string> {
 		const randomSong = this.ldrSongs[Math.floor(Math.random() * this.ldrSongs.length)]
 		const uri = `https://lrclib.net/api/get?artist_name=Lana+Del+Rey&track_name=${encodeURIComponent(randomSong)}`
 
@@ -84,14 +82,14 @@ class LDRLyricsBot {
 
 			if (!response.ok) {
 				console.error('❌ Failed to fetch lyrics:', response.status)
-				return undefined
+				return
 			}
 
 			const data = await response.json() as LyricsResponse
 
 			if (!data.plainLyrics) {
 				console.error(`❌ Lyrics for song ${randomSong} are null`)
-				return undefined
+				return
 			}
 
 			const lyrics = data.plainLyrics.split('\n\n')
@@ -106,25 +104,28 @@ class LDRLyricsBot {
 		}
 		catch (error) {
 			console.error('❌ Something went wrong:', error)
-			return undefined
+			return
 		}
 	}
 
 	public async tweetRandomLDRLyrics(): Promise<Response> {
 		try {
+			const authHeader = this.oAuth.toHeader(this.oAuth.authorize(this.reqAuth, this.tokenConfig))
 			const response = await fetch(this.reqAuth.url, {
 				method: this.reqAuth.method,
 				headers: {
-					...this.oAuth.toHeader(this.oAuth.authorize(this.reqAuth, this.tokenConfig)),
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Authorization': authHeader.Authorization
 				},
-				body: JSON.stringify({ "text": await this.getRandomLDRLyrics() })
+				body: JSON.stringify({ text: await this.getRandomLDRLyrics() })
 			})
 
 			if (!response.ok) {
 				const errorText = await response.text()
 
-				console.error('❌ Error when trying to post tweet:', errorText)
+				console.error(`❌ Error when trying to post tweet: ${errorText}`)
+				console.error('❌ Error when trying to post tweet:', response.status, response.statusText)
+
 				return new Response(`❌ Error when trying to post tweet: ${errorText}`)
 			}
 			return new Response('✅ Success!')
