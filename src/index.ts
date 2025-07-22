@@ -81,7 +81,9 @@ class LDRLyricsBot {
 			const response = await fetch(uri)
 
 			if (!response.ok) {
-				console.error('❌ Failed to fetch lyrics:', response.status)
+				const errorText = await response.text()
+
+				console.error('❌ Failed to fetch lyrics:', errorText)
 				return
 			}
 
