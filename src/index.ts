@@ -47,7 +47,7 @@ class LDRLyricsBot {
 		// Unreleased
 		"Flipside", "Is This Happiness", "Jealous Girl", "Kill Kill", "Meet Me In The Pale Moonlight", "Queen Of Disaster", "Serial Killer", "Trash Magic",
 		// LDR10
-		"Henry, come on", "Bluebird"
+		"Henry, come on", "Bluebird", "White Feather Hawk Tail Deer Hunter"
 	]
 	private reqAuth = {
 		url: "https://api.twitter.com/2/tweets",
