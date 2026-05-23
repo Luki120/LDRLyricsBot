@@ -12,8 +12,8 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
-    "@types/node": "^25.3.3",
-    "wrangler": "^4.69.0"
+    "@types/node": "^25.5.0",
+    "wrangler": "^4.94.0"
   },
   "dependencies": {
     "crypto-js": "^4.2.0",
