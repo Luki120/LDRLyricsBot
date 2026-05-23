@@ -1,14 +1,13 @@
-import { HmacSHA1, enc } from 'crypto-js'
-import OAuth, { Options } from 'oauth-1.0a'
+import { BskyAgent } from '@atproto/api';
 
 export default {
 	async fetch(): Promise<Response> {
-		return new Response(`© ${new Date().getFullYear()} Luki120`)
+		return new Response(`© 2025-${new Date().getFullYear()} Luki120`)
 	},
 	async scheduled(event: Event, env: Env, ctx: ExecutionContext): Promise<void> {
-		const bot = new LDRLyricsBot(env)
+		const bot = new LDRLyricsBot()
 		try {
-			ctx.waitUntil(bot.tweetRandomLDRLyrics())
+			ctx.waitUntil(bot.postRandomLDRLyrics(env))
 		}
 		catch (error) {
 			console.error('❌ Error when scheduling cron job: ', error)
@@ -21,9 +20,6 @@ interface LyricsResponse {
 }
 
 class LDRLyricsBot {
-	private oAuth: OAuth
-	private oAuthConfig: Options
-	private tokenConfig: { key: string, secret: string }
 	private ldrSongs: string[] = [
 		// Born to Die + Paradise (2012)
 		"Born To Die", "Off To The Races", "Blue Jeans", "Video Games", "Diet Mountain Dew", "National Anthem", "Dark Paradise", "Radio", "Carmen", "Million Dollar Man", "Summertime Sadness", "This Is What Makes Us Girls", "Without You", "Lolita", "Lucky Ones",
@@ -43,37 +39,14 @@ class LDRLyricsBot {
 		// Did you know that there's a tunnel under Ocean Blvd (2023)
 		"The Grants", "Did you know that there's a tunnel under Ocean Blvd", "Sweet", "A&W", "Candy Necklace", "Kintsugi", "Fingertips", "Paris, Texas", "Grandfather please stand on the shoulders of my father while he's deep-sea fishing", "Let The Light In", "Margaret", "Fishtail", "Peppers", "Taco Truck x VB",
 		// Singles
-		"Tough", "Take Me Home, Country Roads", "Blue Skies", "Lost At Sea", "Say Yes To Heaven", "Buddy's Rendezvous", "Watercolor Eyes", "Summertime The Gershwin Version", "Season Of The Witch",
+		"Tough", "Take Me Home, Country Roads", "Blue Skies", "Lost At Sea", "Say Yes To Heaven", "Buddy's Rendezvous", "Watercolor Eyes", "Summertime The Gershwin Version", "Season Of The Witch", "First Light",
 		// Unreleased
 		"Flipside", "Is This Happiness", "Jealous Girl", "Kill Kill", "Meet Me In The Pale Moonlight", "Queen Of Disaster", "Serial Killer", "Trash Magic",
 		// LDR10
 		"Henry, come on", "Bluebird", "White Feather Hawk Tail Deer Hunter"
 	]
-	private reqAuth = {
-		url: "https://api.twitter.com/2/tweets",
-		method: 'POST'
-	}
 
-	constructor(env: Env) {
-		this.oAuthConfig = {
-			consumer: {
-				key: env.TWITTER_API_KEY,
-				secret: env.TWITTER_API_SECRET
-			},
-			signature_method: 'HMAC-SHA1',
-			hash_function(baseString: string, key: string) {
-				return HmacSHA1(baseString, key).toString(enc.Base64)
-			}
-		}
-		this.tokenConfig = {
-			key: env.TWITTER_ACCESS_TOKEN,
-			secret: env.TWITTER_ACCESS_TOKEN_SECRET
-		}
-
-		this.oAuth = new OAuth(this.oAuthConfig)
-	}
-
-	private async getRandomLDRLyrics(): Promise<string> {
+	private async getRandomLDRLyrics(): Promise<string | void> {
 		const randomSong = this.ldrSongs[Math.floor(Math.random() * this.ldrSongs.length)]
 		const uri = `https://lrclib.net/api/get?artist_name=Lana+Del+Rey&track_name=${encodeURIComponent(randomSong)}`
 
@@ -110,26 +83,25 @@ class LDRLyricsBot {
 		}
 	}
 
-	public async tweetRandomLDRLyrics(): Promise<Response> {
+	public async postRandomLDRLyrics(env: Env): Promise<Response> {
 		try {
-			const authHeader = this.oAuth.toHeader(this.oAuth.authorize(this.reqAuth, this.tokenConfig))
-			const response = await fetch(this.reqAuth.url, {
-				method: this.reqAuth.method,
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': authHeader.Authorization
-				},
-				body: JSON.stringify({ text: await this.getRandomLDRLyrics() })
+			const agent = new BskyAgent({
+				service: new URL('https://bsky.social')
+			});
+			await agent.login({
+				identifier: env.BLUESKY_USERNAME,
+				password: env.BLUESKY_PASSWORD
+			});
+
+			const lyrics = await this.getRandomLDRLyrics()
+			if (!lyrics) {
+				return new Response('❌ Failed to get lyrics')
+			}
+
+			await agent.post({
+				text: lyrics
 			})
 
-			if (!response.ok) {
-				const errorText = await response.text()
-
-				console.error(`❌ Error when trying to post tweet: ${errorText}`)
-				console.error('❌ Error when trying to post tweet:', response.status, response.statusText)
-
-				return new Response(`❌ Error when trying to post tweet: ${errorText}`)
-			}
 			return new Response('✅ Success!')
 		}
 		catch (error) {

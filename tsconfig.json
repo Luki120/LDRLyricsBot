@@ -2,8 +2,8 @@
     "compilerOptions": {
         "esModuleInterop": true,
         "lib": ["ES6", "DOM"],
-        "module": "ESNext",
-        "moduleResolution": "node",
+        "module": "NodeNext",
+        "moduleResolution": "nodenext",
         "target": "ES6",
         "types": ["worker-configuration.d.ts", "node"]
     }

@@ -1,6 +1,6 @@
 # LDRLyricsBot
 
-* Twitter bot that posts random Lana Del Rey lyrics every two hours, deployed to Cloudflare Workers.
+* Bluesky bot that posts random Lana Del Rey lyrics every two hours, deployed to Cloudflare Workers.
 
 ## Socials
 
