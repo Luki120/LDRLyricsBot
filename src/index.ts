@@ -1,4 +1,4 @@
-import { BskyAgent } from '@atproto/api';
+import { AtpAgent } from '@atproto/api';
 
 export default {
 	async fetch(): Promise<Response> {
@@ -85,7 +85,7 @@ class LDRLyricsBot {
 
 	public async postRandomLDRLyrics(env: Env): Promise<Response> {
 		try {
-			const agent = new BskyAgent({
+			const agent = new AtpAgent({
 				service: new URL('https://bsky.social')
 			});
 			await agent.login({
