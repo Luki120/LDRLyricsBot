@@ -68,14 +68,16 @@ class LDRLyricsBot {
 			}
 
 			const lyrics = data.plainLyrics.split('\n\n')
-			const randomVerse = lyrics[Math.floor(Math.random() * lyrics.length)]
+			const randomIndex = Math.floor(Math.random() * lyrics.length)
+			const randomVerse = lyrics[randomIndex]
 			const verseLines = randomVerse.split('\n')
 
 			if (verseLines.length < 2) {
 				console.error(`❌ Verse "${verseLines}" for song ${randomSong} has less than 2 lines, retrying...`)
 				return await this.getRandomLDRLyrics()
 			}
-			return verseLines.slice(0, 4).join('\n')
+			const lineCount = randomSong === 'Not All Who Wander Are Lost' && randomIndex === 0 ? 6 : 4
+			return verseLines.slice(0, lineCount).join('\n')
 		}
 		catch (error) {
 			console.error('❌ Something went wrong:', error)
