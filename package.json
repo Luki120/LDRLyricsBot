@@ -11,8 +11,8 @@
     "type-check": "generate-types && tsc"
   },
   "devDependencies": {
-    "@types/node": "^25.5.0",
-    "wrangler": "^4.94.0"
+    "@types/node": "^26.5.0",
+    "wrangler": "^4.130.0"
   },
   "dependencies": {
     "@atproto/api": "^0.20.8"
