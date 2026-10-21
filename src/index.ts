@@ -51,7 +51,12 @@ class LDRLyricsBot {
 		const uri = `https://lrclib.net/api/get?artist_name=Lana+Del+Rey&track_name=${encodeURIComponent(randomSong)}`
 
 		try {
-			const response = await fetch(uri)
+			const response = await fetch(uri, {
+				headers: {
+					'User-Agent': 'LDRLyricsBot/1.0.0 (https://github.com/Luki120/LDRLyricsBot)',
+					'Lrclib-App-Id': '6bJ8StEBgV9hdLLenxIBYRw6S1sVdV_YeotraKeTh6A'
+				}
+			})
 
 			if (!response.ok) {
 				const errorText = await response.text()
